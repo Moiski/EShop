@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xmlns="http://xmlns.jcp.org/xml/ns/javaee" 
+		xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+		id="WebApp_ID" version="3.1">
+		
+	<display-name>ETShop</display-name>
+	
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+	
+	<servlet>
+		<servlet-name>frontConroller</servlet-name>
+		<servlet-class>by.moiski.controller.FrontConroller</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>frontConroller</servlet-name>
+		<url-pattern>/controller</url-pattern>
+	</servlet-mapping>
+	
+	<error-page>
+		<error-code>404</error-code>
+		<location>/jsp/error/error.jsp</location>
+	</error-page>
+	
+	<error-page>
+		<exception-type>java.lang.RuntimeException</exception-type>
+		<location>/jsp/error/error.jsp</location>
+	</error-page>
+	
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+	
+	<filter>
+		<filter-name>EncodingFilter</filter-name>
+		<filter-class>by.moiski.filter.EncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>EncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>PageRedirectSecurityFilter</filter-name>
+		<filter-class>by.moiski.filter.PageRedirectSecurityFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>PageRedirectSecurityFilter</filter-name>
+		<url-pattern>/jsp/*</url-pattern>
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>ServletSecurityFilter</filter-name>
+		<filter-class>by.moiski.filter.ServletSecurityFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>ServletSecurityFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	
+	<resource-ref>
+		<description>MySQL DB Connection Poll</description>
+		<res-ref-name>jdbc/eshop</res-ref-name>
+  	<res-type>javax.sql.DataSource</res-type>
+  	<res-auth>Container</res-auth>
+  </resource-ref>
+	
+</web-app>
