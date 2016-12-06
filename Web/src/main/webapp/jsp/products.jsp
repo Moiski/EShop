@@ -17,9 +17,8 @@
 	<hr/>
 	<div class="body">
 		<div class="leftPart" >
-			<c:import url="/jsp/fragment/user.jsp" /><br/>
-			
 			<c:import url="/jsp/fragment/navbar.jsp" />
+			<c:import url="/jsp/fragment/user.jsp" /><br/>		
 		</div>	
 		<div class="rigthPart">
 			<c:import url="/jsp/fragment/productslist.jsp" />

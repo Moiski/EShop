@@ -1,37 +1,61 @@
 package by.moiski.dao.entities;
 
-public class Cart {
+import java.io.Serializable;
 
-	private int cartID;
-	private long usersID;
-	private int productID;
-	private ProductCategory category;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Proxy;
+
+@Entity
+@Table(name="carts")
+@Proxy(lazy = false)
+public class Cart implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	
+	private Long cartId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public Long getCartId() {
+		return cartId;
+	}
+	
+	private User user;
+	@OneToOne
+	@JoinColumn(name = "userID")
+	public User getUser() {
+		return user;
+	}
+	
+	private Product product;
+	@ManyToOne
+	@JoinColumn(name = "productID")
+	public Product getProduct() {
+		return product;
+	}
 
 	public Cart() {
 	}
 
-	public Cart(int cartID, long usersID, int productID, ProductCategory category) {
-		super();
-		this.cartID = cartID;
-		this.usersID = usersID;
-		this.productID = productID;
-		this.category = category;
-	}
-
 	@Override
 	public String toString() {
-		return "Cart [cartID=" + cartID + ", usersID=" + usersID + ", productID=" + productID + ", category=" + category
-				+ "]";
+		return "Cart [cartId=" + cartId + ", user=" + user + ", product=" + product + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + cartID;
-		result = prime * result + ((category == null) ? 0 : category.hashCode());
-		result = prime * result + productID;
-		result = prime * result + (int) (usersID ^ (usersID >>> 32));
+		result = prime * result + ((cartId == null) ? 0 : cartId.hashCode());
+		result = prime * result + ((product == null) ? 0 : product.hashCode());
+		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
 
@@ -44,50 +68,34 @@ public class Cart {
 		if (getClass() != obj.getClass())
 			return false;
 		Cart other = (Cart) obj;
-		if (cartID != other.cartID)
-			return false;
-		if (category == null) {
-			if (other.category != null)
+		if (cartId == null) {
+			if (other.cartId != null)
 				return false;
-		} else if (!category.equals(other.category))
+		} else if (!cartId.equals(other.cartId))
 			return false;
-		if (productID != other.productID)
+		if (product == null) {
+			if (other.product != null)
+				return false;
+		} else if (!product.equals(other.product))
 			return false;
-		if (usersID != other.usersID)
+		if (user == null) {
+			if (other.user != null)
+				return false;
+		} else if (!user.equals(other.user))
 			return false;
 		return true;
 	}
 
-	public int getCartID() {
-		return cartID;
+	public void setCartId(Long cartId) {
+		this.cartId = cartId;
 	}
 
-	public void setCartID(int cartID) {
-		this.cartID = cartID;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
-	public long getUsersID() {
-		return usersID;
+	public void setProduct(Product product) {
+		this.product = product;
 	}
-
-	public void setUsersID(long usersID) {
-		this.usersID = usersID;
-	}
-
-	public int getProductID() {
-		return productID;
-	}
-
-	public void setProductID(int productID) {
-		this.productID = productID;
-	}
-
-	public ProductCategory getCategory() {
-		return category;
-	}
-
-	public void setCategory(ProductCategory category) {
-		this.category = category;
-	}
-
+	
 }

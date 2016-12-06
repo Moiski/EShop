@@ -1,30 +1,51 @@
 package by.moiski.dao.entities;
 
-public class ProductCategory {
+import java.io.Serializable;
 
-	private int productCategoryId;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Proxy;
+
+@Entity
+@Table(name = "productcategories")
+@Proxy(lazy = false)
+public class ProductCategory implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	private Long categoryID;
+	@Id
+	@Column(name = "categoryId")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public Long getCategoryID() {
+		return categoryID;
+	}
+
 	private String name;
+	@Column(name = "categoryname")
+	public String getName() {
+		return name;
+	}
 
 	public ProductCategory() {
 	}
 
-	public ProductCategory(int productCategoryId, String name) {
-		super();
-		this.productCategoryId = productCategoryId;
-		this.name = name;
-	}
-
 	@Override
 	public String toString() {
-		return "ProductCategory [productCategoryId=" + productCategoryId + ", name=" + name + "]";
+		return "ProductCategory [categoryID=" + categoryID + ", name=" + name + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((categoryID == null) ? 0 : categoryID.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + productCategoryId;
 		return result;
 	}
 
@@ -37,26 +58,21 @@ public class ProductCategory {
 		if (getClass() != obj.getClass())
 			return false;
 		ProductCategory other = (ProductCategory) obj;
+		if (categoryID == null) {
+			if (other.categoryID != null)
+				return false;
+		} else if (!categoryID.equals(other.categoryID))
+			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (productCategoryId != other.productCategoryId)
-			return false;
 		return true;
 	}
 
-	public int getProductCategoryId() {
-		return productCategoryId;
-	}
-
-	public void setProductCategoryId(int productCategoryId) {
-		this.productCategoryId = productCategoryId;
-	}
-
-	public String getName() {
-		return name;
+	public void setCategoryID(Long categoryID) {
+		this.categoryID = categoryID;
 	}
 
 	public void setName(String name) {

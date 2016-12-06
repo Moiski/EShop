@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import by.moiski.dao.entities.User;
-import by.moiski.dao.entities.UserT;
+import by.moiski.dao.enums.UserT;
 import by.moiski.services.impl.UserServiceImpl;
 import by.moiski.utilits.ConfigurationManager;
 import by.moiski.utilits.MessageManager;
@@ -20,8 +20,7 @@ public class LoginCommand implements ActionCommand {
 		String page = null;
 		String login = request.getParameter(LOGIN);
 		String password = request.getParameter(PASSWORD);
-		UserServiceImpl userServiceImpl = new UserServiceImpl();
-		User user = userServiceImpl.getUserByLoginPassword(login, password);
+		User user = UserServiceImpl.getInstance().getUserByLoginPassword(login, password);
 		HttpSession httpSession = request.getSession(true);
 		if ((user != null) && user.getRole().equals(UserT.ADMIN) ){
 			httpSession.setAttribute(SESSION_ATTRIBUTE_USER_LOGIN, user.getLogin());

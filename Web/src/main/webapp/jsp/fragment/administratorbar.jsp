@@ -3,7 +3,7 @@
 
 <div class="panel-heading">
 	<c:if test="${(sessionScope.userType eq 'ADMIN')}">
-		<b><span class="glyphicon glyphicon-user" aria-hidden="true"></span>Hello, ${sessionScope.userLogin}!</b>
+		<b><i>Hello, ${sessionScope.userLogin}!</i></b>
 	</c:if>
 </div>
 <div class="panel panel-success">
@@ -11,7 +11,6 @@
 		<i class="panel-title">Only for Administrator</i>
 	</div>
 	<div class="panel-body">
-	
 		<form id="showAllProductsButton" action="controller" method="POST" >
 			<input type="hidden" name="command" value="showallproducts" />
 			<input class="btn btn-default btn-block btn-info" type="submit" value="Show all products" />
@@ -30,5 +29,5 @@
 </div>
 <form action="controller" method="POST">
 		<input type="hidden" name="command" value="logout" /><br/>
-		<button class="btn btn-primary btn-info" type="submit">Log out <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></button>
+		<button class="btn btn-primary btn-info" type="submit">Log out</button>
 </form>

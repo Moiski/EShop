@@ -9,5 +9,7 @@ public interface IUserDao extends IDao<User> {
 	User getUserByLoginAndPassword(String login, String password);
 
 	List<User> getAllUsers();
+	
+	List<User> getUserByLogin(String login);
 
 }

@@ -1,39 +1,100 @@
 package by.moiski.dao.entities;
 
-import java.sql.Date;
+import java.io.Serializable;
+import java.util.Date;
 
-import by.moiski.dao.BlackList;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-public class User {
-	
-	
-	private long userId;
-	private String login;
-	private String password;
-	private String email;
-	private String firstname;
-	private String lastname;
-	private String shippingAddress;
-	private BlackList blackList;
-	private Date registrDate;
-	private UserT role;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Proxy;
 
-	public User() {
+import by.moiski.dao.enums.BlackList;
+import by.moiski.dao.enums.UserT;
+
+@Entity
+@Table(name = "users")
+@Proxy(lazy = false)
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+public class User implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	private Long userId;
+	@Id
+	@Column(name = "userID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public Long getUserId() {
+		return userId;
 	}
 
-	public User(long userId, String login, String password, String email, String firstname, String lastname,
-			String shippingAddress, BlackList blackList, Date registrDate, UserT role) {
-		super();
-		this.userId = userId;
-		this.login = login;
-		this.password = password;
-		this.email = email;
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.shippingAddress = shippingAddress;
-		this.blackList = blackList;
-		this.registrDate = registrDate;
-		this.role = role;
+	private String login;
+	@Column(name = "login")
+	public String getLogin() {
+		return login;
+	}
+
+	private String password;
+	@Column(name = "password")
+	public String getPassword() {
+		return password;
+	}
+
+	private String email;
+	@Column(name = "email")
+	public String getEmail() {
+		return email;
+	}
+
+	private String firstname;
+	@Column(name = "firstName")
+	public String getFirstname() {
+		return firstname;
+	}
+
+	private String lastname;
+	@Column(name = "lastName")
+	public String getLastname() {
+		return lastname;
+	}
+
+	private String shippingAddress;
+	@Column(name = "shippingAddress")
+	public String getShippingAddress() {
+		return shippingAddress;
+	}
+
+	private BlackList blackList;
+	@Enumerated(EnumType.STRING)
+	@Column(name = "isInBlackList", columnDefinition = "enum('Y','N')")
+	public BlackList getBlackList() {
+		return blackList;
+	}
+
+	private Date registrDate;
+	@Temporal(value = TemporalType.TIMESTAMP)
+	@Column(name = "registrDate")
+	public Date getRegistrDate() {
+		return registrDate;
+	}
+
+	private UserT role;
+	@Enumerated(EnumType.STRING)
+	@Column(name = "userT", columnDefinition = "enum('ADMIN','CLIENT')")
+	public UserT getRole() {
+		return role;
+	}
+	
+	public User() {
 	}
 
 	@Override
@@ -56,7 +117,7 @@ public class User {
 		result = prime * result + ((registrDate == null) ? 0 : registrDate.hashCode());
 		result = prime * result + ((role == null) ? 0 : role.hashCode());
 		result = prime * result + ((shippingAddress == null) ? 0 : shippingAddress.hashCode());
-		result = prime * result + (int) (userId ^ (userId >>> 32));
+		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
 		return result;
 	}
 
@@ -108,85 +169,48 @@ public class User {
 				return false;
 		} else if (!shippingAddress.equals(other.shippingAddress))
 			return false;
-		if (userId != other.userId)
+		if (userId == null) {
+			if (other.userId != null)
+				return false;
+		} else if (!userId.equals(other.userId))
 			return false;
 		return true;
 	}
 
-	public long getUserId() {
-		return userId;
-	}
-
-	public void setUserId(long userId) {
+	public void setUserId(Long userId) {
 		this.userId = userId;
-	}
-
-	public String getLogin() {
-		return login;
 	}
 
 	public void setLogin(String login) {
 		this.login = login;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public String getEmail() {
-		return email;
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
-	public String getFirstname() {
-		return firstname;
-	}
-
 	public void setFirstname(String firstname) {
 		this.firstname = firstname;
-	}
-
-	public String getLastname() {
-		return lastname;
 	}
 
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
 	}
 
-	public String getShippingAddress() {
-		return shippingAddress;
-	}
-
 	public void setShippingAddress(String shippingAddress) {
 		this.shippingAddress = shippingAddress;
-	}
-
-	public BlackList getBlackList() {
-		return blackList;
 	}
 
 	public void setBlackList(BlackList blackList) {
 		this.blackList = blackList;
 	}
 
-	public Date getRegistrDate() {
-		return registrDate;
-	}
-
 	public void setRegistrDate(Date registrDate) {
 		this.registrDate = registrDate;
-	}
-
-	public UserT getRole() {
-		return role;
 	}
 
 	public void setRole(UserT role) {

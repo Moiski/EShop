@@ -1,10 +1,15 @@
 package by.moiski.command;
 
+import java.util.Date;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import by.moiski.dao.entities.User;
-import by.moiski.dao.entities.UserT;
+import by.moiski.dao.enums.BlackList;
+import by.moiski.dao.enums.UserT;
 import by.moiski.services.impl.UserServiceImpl;
+import by.moiski.utilits.ConfigurationManager;
 import by.moiski.utilits.FormDataValidator;
 import by.moiski.utilits.MessageManager;;
 
@@ -16,8 +21,6 @@ public class RegistrCommand implements ActionCommand {
 	private static final String FIRSTNAME = "firstName";
 	private static final String LASTNAME = "lastName";
 	private static final String ADRESS = "shipAddress";
-
-//	private Logger logger = Logger.getLogger(getClass());
 
 	public String execute(HttpServletRequest request) {
 		User user = new User();
@@ -33,15 +36,18 @@ public class RegistrCommand implements ActionCommand {
 		user.setLastname(request.getParameter(LASTNAME));
 		user.setShippingAddress(request.getParameter(ADRESS));
 		user.setRole(UserT.CLIENT);
-		UserServiceImpl userServiceImpl = new UserServiceImpl();
-		userServiceImpl.saveUserToDataBase(user);
-		
-//		if(){
-//			
-//		}else{
-//			
-//		}
-		
+		user.setBlackList(BlackList.N);
+		user.setRegistrDate(new Date());
+		synchronized (this) {
+			if (checkLoginTofreedom(user.getLogin())){
+				UserServiceImpl.getInstance().saveUserToDataBase(user);
+				request.setAttribute("mainInfoMessage", MessageManager.getProperty("message.registration"));
+				page = ConfigurationManager.getProperty("path.page.main");
+			} else {
+				request.setAttribute("mainInfoMessage", MessageManager.getProperty("message.loginisnotfree"));
+				page = ConfigurationManager.getProperty("path.page.registration");
+			}	
+		}
 		return page;
 	}
 
@@ -63,6 +69,18 @@ public class RegistrCommand implements ActionCommand {
 			return false;
 		}
 		return true;
+	}
+	
+	private boolean checkLoginTofreedom (String login){
+		List<User> users = UserServiceImpl.getInstance().getUserByLogin(login);
+		boolean isLoginFree = true;
+		for (User user : users) {
+			if (user.getLogin().equals(login)){
+				isLoginFree = false;
+				return isLoginFree;
+			}
+		}
+		return isLoginFree ;
 	}
 
 }

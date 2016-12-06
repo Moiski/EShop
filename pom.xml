@@ -32,16 +32,6 @@
   	</dependency>
   </dependencies>
   
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>cobertura-maven-plugin</artifactId>
-				<version>2.7</version>
-			</plugin>
-		</plugins>
-	</reporting>
-  
   <build>
   	<plugins>
   		<plugin>
@@ -70,16 +60,16 @@
 	    </plugin>
 		
 		<plugin>
-		<groupId>org.apache.tomcat.maven</groupId>
-		<artifactId>tomcat7-maven-plugin</artifactId>
-		<version>2.2</version>
-			<configuration>
-				<!-- id from settings.xml -->
-				<server>Tomcat-1.8-localhost</server>
-				<url>http://localhost:8080/manager/text</url>
-				<path>/${project.name}</path>
-			</configuration>
-		</plugin>	
+			<groupId>org.apache.tomcat.maven</groupId>
+			<artifactId>tomcat7-maven-plugin</artifactId>
+			<version>2.2</version>
+				<configuration>
+					<!-- id from settings.xml -->
+					<server>Tomcat-1.8-localhost</server>
+					<url>http://localhost:8080/manager/text</url>
+					<path>/${project.name}</path>
+				</configuration>
+		</plugin>
   	</plugins>
   </build>
   

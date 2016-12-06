@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache>
+	<diskStore path="java.io.tmpdir"/>
+ 	<defaultCache 
+ 		maxElementsInMemory="10" 
+ 		eternal="false"
+  		timeToIdleSeconds="120" 
+ 		timeToLiveSeconds="200" 
+ 		overflowToDisk="true"
+ 		diskExpiryThreadIntervalSeconds="300"
+ 		memoryStoreEvictionPolicy="LRU"/>    
+	<cache
+    	name="by.moiski.dao.entities.User"
+    	maxElementsInMemory="10000"
+    	eternal="false"
+    	overflowToDisk="true"/>
+    <cache
+    	name="by.moiski.dao.entities.Product"
+    	maxElementsInMemory="10000"
+    	eternal="false"
+    	overflowToDisk="true"/>
+</ehcache>

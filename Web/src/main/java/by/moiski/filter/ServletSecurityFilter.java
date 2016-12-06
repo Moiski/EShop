@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import by.moiski.dao.entities.UserT;
+import by.moiski.dao.enums.UserT;
 import by.moiski.utilits.ConfigurationManager;
 
 public class ServletSecurityFilter implements Filter {

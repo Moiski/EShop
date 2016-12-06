@@ -17,8 +17,6 @@
 	<hr/>
 	<div class="body">
 		<div class="leftPart" >
-			<c:import url="/jsp/fragment/administratorbar.jsp" /><br/>
-			
 			<c:import url="/jsp/fragment/navbar.jsp" />
 		</div>	
 		<div class="rigthPart">

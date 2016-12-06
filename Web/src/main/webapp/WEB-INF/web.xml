@@ -14,7 +14,6 @@
 		<servlet-name>frontConroller</servlet-name>
 		<servlet-class>by.moiski.controller.FrontConroller</servlet-class>
 	</servlet>
-	
 	<servlet-mapping>
 		<servlet-name>frontConroller</servlet-name>
 		<url-pattern>/controller</url-pattern>
@@ -24,7 +23,6 @@
 		<error-code>404</error-code>
 		<location>/jsp/error/error.jsp</location>
 	</error-page>
-	
 	<error-page>
 		<exception-type>java.lang.RuntimeException</exception-type>
 		<location>/jsp/error/error.jsp</location>
@@ -55,8 +53,8 @@
 		<filter-name>PageRedirectSecurityFilter</filter-name>
 		<url-pattern>/jsp/*</url-pattern>
 	</filter-mapping>
-	
 	<filter>
+	
 		<filter-name>ServletSecurityFilter</filter-name>
 		<filter-class>by.moiski.filter.ServletSecurityFilter</filter-class>
 	</filter>
@@ -67,11 +65,13 @@
 		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>
 	
-	<resource-ref>
-		<description>MySQL DB Connection Poll</description>
-		<res-ref-name>jdbc/eshop</res-ref-name>
-  	<res-type>javax.sql.DataSource</res-type>
-  	<res-auth>Container</res-auth>
-  </resource-ref>
+	<filter>
+		<filter-name>HibernateSessionControlFilter</filter-name>
+		<filter-class>by.moiski.filter.HibernateSessionFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>HibernateSessionControlFilter</filter-name>
+		<servlet-name>frontConroller</servlet-name>
+	</filter-mapping>
 	
 </web-app>

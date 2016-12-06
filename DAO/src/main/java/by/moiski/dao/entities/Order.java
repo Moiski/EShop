@@ -1,40 +1,91 @@
 package by.moiski.dao.entities;
 
-import java.util.Map;
+import java.io.Serializable;
+import java.util.List;
 
-import by.moiski.dao.OrderStates;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
-public class Order {
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Proxy;
 
-	private long userId;
-	private OrderStates states;
-	private Map<Product, Integer> orderProducts;
+import by.moiski.dao.enums.OrderState;
 
-	public Order() {
+
+@Entity
+@Table(name="orders")
+@Proxy(lazy = false)
+public class Order implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	
+	private Long orderId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "orderID")
+	public Long getOrderId() {
+		return orderId;
 	}
-
-	public Order(long userId, OrderStates states, Map<Product, Integer> orderProducts) {
-		super();
-		this.userId = userId;
-		this.states = states;
-		this.orderProducts = orderProducts;
+	
+	private User user;
+	@OneToOne
+	@JoinColumn(name = "userID")
+	public User getUser() {
+		return user;
 	}
-
+	
+	private Double amountPurchase;
+	@Column(name="amountPurchase")
+	public Double getAmountPurchase() {
+		return amountPurchase;
+	}
+	
+	private OrderState orderState;
+	@Column(name = "orderState", columnDefinition = "enum('OPEN','CLOSE')")
+	@Enumerated(EnumType.STRING)
+	public OrderState getOrderState() {
+		return orderState;
+	}
+	
+	private List<OrderDetail> orderDetails;
+	@OneToMany
+	@Cascade(value = CascadeType.SAVE_UPDATE)
+	@JoinTable(
+			name = "orders_orderDetail",
+			joinColumns = @JoinColumn(name = "orderId"),
+			inverseJoinColumns = @JoinColumn(name ="orderDetailId") 
+			)
+	public List<OrderDetail> getOrderDetails() {
+		return orderDetails;
+	}
+	
 	@Override
 	public String toString() {
-		return "Order [userId=" + userId + ", states=" + states + ", orderProducts=" + orderProducts + "]";
+		return "Order [orderId=" + orderId + ", user=" + user + ", amountPurchase=" + amountPurchase + ", orderState="
+				+ orderState + ", orderDetails=" + orderDetails + "]";
 	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((orderProducts == null) ? 0 : orderProducts.hashCode());
-		result = prime * result + ((states == null) ? 0 : states.hashCode());
-		result = prime * result + (int) (userId ^ (userId >>> 32));
+		result = prime * result + ((amountPurchase == null) ? 0 : amountPurchase.hashCode());
+		result = prime * result + ((orderDetails == null) ? 0 : orderDetails.hashCode());
+		result = prime * result + ((orderId == null) ? 0 : orderId.hashCode());
+		result = prime * result + ((orderState == null) ? 0 : orderState.hashCode());
+		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -44,40 +95,44 @@ public class Order {
 		if (getClass() != obj.getClass())
 			return false;
 		Order other = (Order) obj;
-		if (orderProducts == null) {
-			if (other.orderProducts != null)
+		if (amountPurchase == null) {
+			if (other.amountPurchase != null)
 				return false;
-		} else if (!orderProducts.equals(other.orderProducts))
+		} else if (!amountPurchase.equals(other.amountPurchase))
 			return false;
-		if (states != other.states)
+		if (orderDetails == null) {
+			if (other.orderDetails != null)
+				return false;
+		} else if (!orderDetails.equals(other.orderDetails))
 			return false;
-		if (userId != other.userId)
+		if (orderId == null) {
+			if (other.orderId != null)
+				return false;
+		} else if (!orderId.equals(other.orderId))
+			return false;
+		if (orderState != other.orderState)
+			return false;
+		if (user == null) {
+			if (other.user != null)
+				return false;
+		} else if (!user.equals(other.user))
 			return false;
 		return true;
 	}
-
-	public long getUserId() {
-		return userId;
+	public void setOrderId(Long orderId) {
+		this.orderId = orderId;
 	}
-
-	public void setUserId(long userId) {
-		this.userId = userId;
+	public void setUser(User user) {
+		this.user = user;
 	}
-
-	public OrderStates getStates() {
-		return states;
+	public void setAmountPurchase(Double amountPurchase) {
+		this.amountPurchase = amountPurchase;
 	}
-
-	public void setStates(OrderStates states) {
-		this.states = states;
+	public void setOrderState(OrderState orderState) {
+		this.orderState = orderState;
 	}
-
-	public Map<Product, Integer> getOrderProducts() {
-		return orderProducts;
-	}
-
-	public void setOrderProducts(Map<Product, Integer> orderProducts) {
-		this.orderProducts = orderProducts;
+	public void setOrderDetails(List<OrderDetail> orderDetails) {
+		this.orderDetails = orderDetails;
 	}
 
 }

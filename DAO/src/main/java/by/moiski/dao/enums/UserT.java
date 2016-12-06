@@ -1,4 +1,4 @@
-package by.moiski.dao.entities;
+package by.moiski.dao.enums;
 
 public enum UserT {
 	

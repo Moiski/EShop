@@ -12,8 +12,6 @@
 		<label for="password">Password</label>
 		<input id="password" type="password" class="form-control" name="password" placeholder="Password">
 	</div>
-	<button class="btn btn-primary" type="submit">
-		<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>Login  
-	</button>&nbsp;
+	<button class="btn btn-info" type="submit">Login</button>&nbsp;
 	<a href="controller?command=getregistrationform">Registration</a>
 </form>

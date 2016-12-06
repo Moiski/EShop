@@ -6,8 +6,6 @@ import by.moiski.dao.entities.Product;
 
 public interface IProductService {
 	
-	List<Product> getProductsByCategoryId(int categoryId);
-	
 	List<Product> getAllProducts();
 
 }

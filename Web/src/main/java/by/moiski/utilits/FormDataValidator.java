@@ -5,8 +5,8 @@ import java.util.regex.Pattern;
 
 public class FormDataValidator {
 
-	private static final Pattern LOGIN = Pattern.compile("^[a-zA-Z0-9]{4,15}$");
-	private static final Pattern PASSWORD = Pattern.compile("^[a-zA-Z0-9]{4,15}$");
+	private static final Pattern LOGIN = Pattern.compile("^[a-zA-Z0-9]{3,10}$");
+	private static final Pattern PASSWORD = Pattern.compile("^[a-zA-Z0-9]{3,10}$");
 	private static final Pattern EMAIL = Pattern.compile("^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\\.[a-zA-Z]+$");
 	private static final Pattern FIRSTNAME = Pattern.compile("^[a-zA-Zа-яА-ЯёЁ ]+$");
 	private static final Pattern LASTNAME = Pattern.compile("^[a-zA-Zа-яА-ЯёЁ ]+$");

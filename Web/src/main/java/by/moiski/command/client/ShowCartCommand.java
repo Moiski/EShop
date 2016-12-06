@@ -1,8 +1,6 @@
 package by.moiski.command.client;
 
-
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import by.moiski.command.ActionCommand;
@@ -16,8 +14,7 @@ public class ShowCartCommand implements ActionCommand {
 	public String execute(HttpServletRequest request) {
 		
 		String login = (String) request.getSession().getAttribute("userLogin");
-		CartServiceImpl cartServiceImpl = new CartServiceImpl();
-		List <Product> cartlist = cartServiceImpl.getCartUser(login);
+		List <Product> cartlist = CartServiceImpl.getInstance().getCartUser(login);
 		request.getSession().setAttribute("cartlistuser", cartlist);
 		String page = ConfigurationManager.getProperty("path.page.cart");
 		return page;

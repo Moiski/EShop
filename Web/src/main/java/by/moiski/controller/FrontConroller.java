@@ -13,6 +13,7 @@ import by.moiski.command.factoty.ActionFactory;
 import by.moiski.utilits.ConfigurationManager;
 import by.moiski.utilits.MessageManager;
 
+//@WebServlet("/controller")
 public class FrontConroller extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;

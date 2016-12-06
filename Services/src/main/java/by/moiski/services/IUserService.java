@@ -8,5 +8,4 @@ public interface IUserService {
 	
 	void saveUserToDataBase(User user);
 
-
 }
