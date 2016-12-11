@@ -9,11 +9,9 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import by.moiski.dao.enums.UserT;
-import by.moiski.utilits.ConfigurationManager;
 
 public class ServletSecurityFilter implements Filter {
 
@@ -26,14 +24,11 @@ public class ServletSecurityFilter implements Filter {
 			throws IOException, ServletException {
 		
 		HttpServletRequest req = (HttpServletRequest) request;
-		HttpServletResponse res = (HttpServletResponse) response;
 		HttpSession httpSession = req.getSession();
 		UserT userT = (UserT) httpSession.getAttribute("userType");
 		if (userT == null){
 			userT = UserT.GUEST;
 			httpSession.setAttribute("userType", userT);
-			res.sendRedirect(req.getContextPath() + ConfigurationManager.getProperty("path.page.main"));
-			return;
 		}
 		chain.doFilter(request, response);	
 	}

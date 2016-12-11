@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -36,31 +38,41 @@ public class User implements Serializable {
 	public Long getUserId() {
 		return userId;
 	}
-
+	
+	@Size(min = 3, max = 10, message = "Login must be between 3 and 10 characters long.")
+	@Pattern(regexp = "^[a-zA-Z0-9]+$", message = "Login must be alphanumeric without spaces.")
 	private String login;
-	@Column(name = "login")
+	@Column(name = "login", unique = true)
 	public String getLogin() {
 		return login;
 	}
 
+	@Size(min = 6, max = 45, message = "Password must be between 6 and 45 characters long.")
+    @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "Password must be alphanumeric without spaces.")
 	private String password;
 	@Column(name = "password")
 	public String getPassword() {
 		return password;
 	}
-
+	
+	@Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$", message = "Invalid email address.")
 	private String email;
 	@Column(name = "email")
 	public String getEmail() {
 		return email;
 	}
-
+	
+	@Size(min = 1, max = 45, message = "Firstname must be between 1 and 45 characters long.")
+	@Pattern(regexp = "[a-zA-Zа-яА-ЯёЁ -]+", message = "Firstname name can not have digits.")
 	private String firstname;
 	@Column(name = "firstName")
 	public String getFirstname() {
 		return firstname;
 	}
 
+
+    @Size(min = 1, max = 45, message = "Lastname must be between 1 and 45 characters long.")
+    @Pattern(regexp = "[a-zA-Zа-яА-ЯёЁ -]+", message = "Lastname name can not have digits.")
 	private String lastname;
 	@Column(name = "lastName")
 	public String getLastname() {

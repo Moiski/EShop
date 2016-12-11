@@ -18,6 +18,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.Proxy;
 
 import by.moiski.dao.enums.OrderState;
@@ -59,6 +61,7 @@ public class Order implements Serializable {
 	}
 	
 	private List<OrderDetail> orderDetails;
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany
 	@Cascade(value = CascadeType.SAVE_UPDATE)
 	@JoinTable(

@@ -8,5 +8,9 @@ import by.moiski.dao.entities.Product;
 public interface ICartDao extends IDao<Cart> {
 	
 	List<Product> showCartUser(String login);
+	
+	Cart getCartByUserIdAndProductId (Long userId, Long productId);
+	
+	List<Cart> getCartByUserId (Long userId);
 
 }

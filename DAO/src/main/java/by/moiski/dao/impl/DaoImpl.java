@@ -7,21 +7,27 @@ import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import by.moiski.dao.IDao;
-import by.moiski.dao.dbutils.HibernateUtil;
 import by.moiski.dao.exceptions.DaoExeptions;
 
+@Repository
 public class DaoImpl<T> implements IDao<T> {
 
-	private static Logger logger = Logger.getLogger(DaoImpl.class);
-	protected HibernateUtil hibernateUtil = HibernateUtil.getInstance();
+	protected static Logger logger = Logger.getLogger(DaoImpl.class);
+	@Autowired
+	protected SessionFactory sessionFactory;
+	
+	public DaoImpl() {
+	}
 
 	public void saveOrUpdate(T t) throws DaoExeptions {
 		logger.info("Save or update entity: " + getClass().getName());
 		try {
-			Session session = hibernateUtil.getSession();
-			session.saveOrUpdate(t);
+			getSession().saveOrUpdate(t);
 			logger.info("Save or update entity: " + getClass().getName());
 		} catch (HibernateException e) {
 			logger.error("Error save or update entity of" + t.getClass().getName() + "class in DAO" + e);
@@ -34,8 +40,7 @@ public class DaoImpl<T> implements IDao<T> {
 		logger.info("Get entity by id:" + id);
 		T t = null;
 		try {
-			Session session = hibernateUtil.getSession();
-			t = (T) session.get(getPersistentClass(), id);
+			t = (T) getSession().get(getPersistentClass(), id);
 			logger.info("Get entity: " + t);
 		} catch (HibernateException e) {
 			logger.error("Error getting entity of " + getPersistentClass() + "class in Dao" + e);
@@ -49,8 +54,7 @@ public class DaoImpl<T> implements IDao<T> {
 		logger.info("Load entity by id:" + id);
 		T t = null;
 		try {
-			Session session = hibernateUtil.getSession();
-			t = (T) session.load(getPersistentClass(), id);
+			t = (T) getSession().load(getPersistentClass(), id);
 			logger.info("Loaded entity:" + t);
 		} catch (ObjectNotFoundException e) {
 			logger.error("Error getting entity of " + getPersistentClass() + "class in Dao" + e);
@@ -65,13 +69,16 @@ public class DaoImpl<T> implements IDao<T> {
 	public void delete(T t) throws DaoExeptions {
 		logger.info("Delete entity: " + t);
 		try {
-			Session session = hibernateUtil.getSession();
-			session.delete(t);
+			getSession().delete(t);
 			logger.info("Deleted entity:" + t);
 		} catch (HibernateException e) {
 			logger.error("Error deleting entity of " + t.getClass().getName() + " class in Dao" + e);
 			throw new DaoExeptions(e);
 		}
+	}
+	
+	public Session getSession(){
+		return sessionFactory.getCurrentSession();
 	}
 
 	@SuppressWarnings("unchecked")

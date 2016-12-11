@@ -5,10 +5,9 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<link rel="stylesheet" type="text/css" href="css/main.css"/>
 	<title>Index</title>
 </head>
 <body>
-	<jsp:forward page="/jsp/main.jsp" />
+	<c:redirect url="main" />
 </body>
 </html>
