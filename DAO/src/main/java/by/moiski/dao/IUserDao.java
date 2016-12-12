@@ -7,8 +7,6 @@ import by.moiski.dao.entities.User;
 public interface IUserDao extends IDao<User> {
 
 	User getUserByLoginAndPassword(String login, String password);
-	
-	List<User> getUserByLogin(String login);
 
 	List<User> getAllUsers();
 	
