@@ -1,15 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 
 <div class="table-responsive">
 	<table class ="table table-bordered table-striped ">
-	<caption align="top"><b>All products</b></caption>
+	<caption align="top"><b><s:message code="message.admin.product.all"/></b></caption>
 		<tr class="info" align="center">
-			<th>Name</th>
-			<th>Description</th>
-			<th>Category</th>
-			<th>Price</th>
+			<th><s:message code="message.product.name"/></th>
+			<th><s:message code="message.product.description"/></th>
+			<th><s:message code="message.product.category.name"/></th>
+			<th><s:message code="message.product.cost"/></th>
 		</tr>
 	<c:forEach var="product" items="${productsList}" varStatus="status">
 		<tr>

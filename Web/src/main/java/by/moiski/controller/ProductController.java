@@ -2,11 +2,13 @@ package by.moiski.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +20,6 @@ import by.moiski.dao.entities.ProductCategory;
 import by.moiski.services.IProductService;
 import by.moiski.services.exceptions.ErrorSaveProductServiceExeption;
 import by.moiski.utilits.ConfigurationManager;
-import by.moiski.utilits.MessageManager;
 
 @Controller
 public class ProductController {
@@ -38,6 +39,8 @@ public class ProductController {
 
 	@Autowired
 	private IProductService productService;
+	@Autowired
+	private MessageSource messageSource;
 
 	@RequestMapping(path = "/products/add", method = RequestMethod.GET)
 	public String getAddProductForm(Model model) {
@@ -46,17 +49,17 @@ public class ProductController {
 	}
 
 	@RequestMapping(path = "/products/add/new/product", method = RequestMethod.POST)
-	public String addProduct(Product product, HttpServletRequest request) {
+	public String addProduct(Product product, HttpServletRequest request, Locale locale) {
 		ProductCategory productCategory = new ProductCategory();
 		Long categoryId = Long.parseLong(request.getParameter(REQUEST_PARAMETR_CAYEGORY_ID));
 		productCategory.setCategoryID(categoryId);
 		product.setCategory(productCategory);
 		try {
 			productService.addNewProduct(product);
-			request.setAttribute(ADMIN_INFO_MESSAGE, MessageManager.getProperty("message.add.new.product"));
+			request.setAttribute(ADMIN_INFO_MESSAGE, getMessage("message.add.new.product", locale));
 		} catch (ErrorSaveProductServiceExeption e) {
-			logger.info("Error saving user to database:" + e.getMessage());
-			request.setAttribute(ADMIN_INFO_MESSAGE, MessageManager.getProperty("message.error.add.new.product"));
+			logger.info("Error saving user to database:" + getClass().getName());
+			request.setAttribute(ADMIN_INFO_MESSAGE, getMessage("message.error.add.new.product", locale));
 		}
 		return "admin";
 	}
@@ -129,6 +132,10 @@ public class ProductController {
 			list.add(i + 1);
 		}
 		return list;
+	}
+	
+	private String getMessage(String key, Locale locale) {
+		return messageSource.getMessage(key, null, locale);
 	}
 
 }

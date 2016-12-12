@@ -50,7 +50,7 @@ public class UserController {
 
 	@RequestMapping(path = "/users/addnewuser", method = RequestMethod.POST)
 	public String addNewUser(@Valid User user, BindingResult bindingResult, RedirectAttributes redirectAttributes,
-			HttpServletRequest request) {
+			HttpServletRequest request, Locale locale) {
 		logger.info("User is got from registration form: " + user);
 		if (bindingResult.hasErrors()) {
 			return "registration";
@@ -61,23 +61,21 @@ public class UserController {
 		try {
 			userService.saveUserToDataBase(user);
 			request.setAttribute("regInfoMessage",
-					getMessage("message.registration", Locale.getDefault()));
+					getMessage("message.registration", locale));
 		} catch (LoginAlreadyBusyServiceExeption e) {
-			logger.info("This login is not available:  " + e.getMessage());
-			request.setAttribute("regInfoMessage",
-					getMessage("message.loginisnotfree", Locale.getDefault()));
+			logger.info("This login is not available: " + getClass().getName());
+			request.setAttribute("regInfoMessage", getMessage("message.login.is.not.free", locale));
 			return "registration";
 		} catch (ErrorSavingUserServiceExeption e) {
-			logger.error("Error saving user to database:" + e.getMessage());
-			request.setAttribute("regInfoMessage",
-					getMessage("message.errorregistrarion", Locale.getDefault()));
+			logger.error("Error saving user to database: " + getClass().getName());
+			request.setAttribute("regInfoMessage", getMessage("message.error.registrarion", locale));
 			return "registration";
 		}
 		return "main";
 	}
 
 	@RequestMapping(path = "/users/login", method = RequestMethod.POST)
-	public String login(@Valid User user, BindingResult bindingResult, HttpServletRequest request) {
+	public String login(@Valid User user, BindingResult bindingResult, HttpServletRequest request, Locale locale) {
 		logger.info("User sent login form: " + user);
 		if (bindingResult.hasErrors()) {
 			return "main";
@@ -95,13 +93,13 @@ public class UserController {
 				request.getSession().setAttribute(SESSION_ATTRIBUTE_USER_TYPE, UserT.CLIENT);
 				return "main";
 			} else {
-				request.getSession().setAttribute(SESSION_ERROR_ATTRIBUTE, getMessage("message.errorlogin", Locale.getDefault()));
+				request.getSession().setAttribute(SESSION_ERROR_ATTRIBUTE, getMessage("message.error.login", locale));
 				request.getSession().setAttribute(SESSION_ATTRIBUTE_USER_TYPE, UserT.GUEST);
 				return "main";
 			}
 		} catch (ErrorDataAccessServiceExeption e) {
 			logger.info("Error data access" + e.getMessage());
-			request.getSession().setAttribute("loginInfoMessage", getMessage("message.errorlogin", Locale.getDefault()));
+			request.getSession().setAttribute("loginInfoMessage", getMessage("message.error.login", locale));
 			return "main";
 		}
 	}
@@ -115,17 +113,17 @@ public class UserController {
 	}
 	
 	@RequestMapping(path="/users/add/remove/blacklist", method = RequestMethod.GET)
-	public String blackList(User user, Model model){
+	public String blackList(User user, Model model, Locale locale){
 		user = userService.getUserById(user.getUserId());
 		if (user.getBlackList().equals(BlackList.N)){
 			user.setBlackList(BlackList.Y);
 			userService.updateUserBlackListStatus(user);
-			model.addAttribute(SESSION_ATTRIBUTE_ADMIN_INFO_MESSAGE, getMessage("message.useraddtoblacklist", Locale.getDefault()));
+			model.addAttribute(SESSION_ATTRIBUTE_ADMIN_INFO_MESSAGE, getMessage("message.user.add.to.black.list", locale));
 			return "admin";
 		} else {
 			user.setBlackList(BlackList.N);
 			userService.updateUserBlackListStatus(user);
-			model.addAttribute(SESSION_ATTRIBUTE_ADMIN_INFO_MESSAGE, getMessage("message.userremovetislacklist", Locale.getDefault()));
+			model.addAttribute(SESSION_ATTRIBUTE_ADMIN_INFO_MESSAGE, getMessage("message.user.removet.is.black.list", locale));
 			return "admin";
 		}
 	}

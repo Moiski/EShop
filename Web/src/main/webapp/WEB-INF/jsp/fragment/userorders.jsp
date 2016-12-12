@@ -6,12 +6,12 @@
 
 <div class="table-responsive">
 	<table class ="table table-bordered table-striped">
-		<caption><b>All your Orders</b></caption>
+		<caption><b><s:message code="message.orders.all"/></b></caption>
 			<tr class="info">
-				<th>Order ID</th>
-				<th>Common Price, BY</th>
-				<th>State</th>
-				<th>Products List</th>
+				<th><s:message code="message.orders.all.orderid"/></th>
+				<th><s:message code="message.orders.all.cost"/></th>
+				<th><s:message code="message.orders.all.status"/></th>
+				<th><s:message code="message.orders.all.product.list"/></th>
 			</tr>
 		<c:forEach var="order" items="${orderlistuser}" varStatus="status">
 			<tr>

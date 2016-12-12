@@ -16,20 +16,20 @@
 	</c:if>
 	<sf:form method="POST" action="${pageContext.request.contextPath}/users/login" modelAttribute="user">
 		<div class="form-group">
-			<label for="login">Login</label>
+			<label for="login"><s:message code="message.login.form.login"/></label>
 			<sf:input path="login"
 				id="login"
 				placeholder="Login"
 				class="form-control"/>
 		</div>
 		<div class="form-group">
-			<label for="password">Password</label>
+			<label for="password"><s:message code="message.login.form.password"/></label>
 			<sf:input path="password"
 				id="password"
 				placeholder="Password"
 				class="form-control"/>
 		</div>
-		<button class="btn btn-info" type="submit">Login</button>&nbsp;
-		<a href="${pageContext.request.contextPath}/users/getregistrationform">Registration</a>
+		<button class="btn btn-info" type="submit"><s:message code="message.login.form.button.login"/></button>&nbsp;
+		<a href="${pageContext.request.contextPath}/users/getregistrationform"><s:message code="message.login.form.button.reg"/></a>
 	</sf:form>
 </div>

@@ -15,7 +15,7 @@
   			<div class="col-xs-6">
   				<c:out value="${product.name}"/><br>
   				<c:out value="${product.description}"/><br>
-  				<div class="panel-info class"><h1><span class="label label-default">Cost ${product.price}</span></h1></div>
+  				<div class="panel-info class"><h1><span class="label label-default"><s:message code="message.product.cost"/> ${product.price}</span></h1></div>
   			</div>
 		</div>
 		<div class="row">
@@ -24,7 +24,7 @@
   					<sf:form id="addProductButton" action="${pageContext.request.contextPath}/add/cart" 
   							method="POST" modelAttribute="product">
   						<sf:input type="hidden" path="productID" value="${product.productID}"/>
-  						<button class="btn btn-default" type="submit">Add to cart</button>
+  						<button class="btn btn-default" type="submit"><s:message code="message.buy"/></button>
   					</sf:form>
 				</c:if>
   			</div>

@@ -5,32 +5,30 @@
 
 <div id="clientFilterForm">
 	<form id="clientProductForm" class="form-inline" action="${pageContext.request.contextPath}/products/clientfilter" method="GET">
-		<input type="hidden" name="isFilterChanged" value="true">	
-		<label>Choose category:&nbsp;
+		<input type="hidden" name="isFilterChanged" value="true">
+		<label><s:message code="message.category"/>&nbsp;
 			<select name="categoryId" class="form-control">
-				<option value="0">All product</option>
-				<option value="1">Kindle E-readers</option>
-				<option value="2">Tablets</option>
-				<option value="3">Accessories</option>
+				<option value="0"><s:message code="message.category.all"/></option>
+				<option value="1"><s:message code="message.category.id.1"/></option>
+				<option value="2"><s:message code="message.category.id.2"/></option>
+				<option value="3"><s:message code="message.category.id.3"/></option>
 			</select>
 		<c:set var ="categoryId" value="${sessionScope.clientFilter.categoryId}" scope="page"/>
 		</label>
-		<label for="sort">Sort by:</label>
+		<label for="sort"><s:message code="message.sort"/></label>
 		<select name="sorting" class="form-control">
-			<option value="0">No sort</option>
-			<option value="1">Low to high</option>
-			<option value="2">High to low</option>
+			<option value="0"><s:message code="message.sort.no"/></option>
+			<option value="1"><s:message code="message.sort.asc"/></option>
+			<option value="2"><s:message code="message.sort.des"/></option>
 		</select>
 		<c:set var ="sorting" value="${sessionScope.clientFilter.sorting}" scope="page"/>
-		<label for="itemsPerPage">Items per page:</label>
+		<label for="itemsPerPage"><s:message code="message.per.page"/></label>
 		<select name="itemsPerPage" class="form-control">
 			<option value="3">3</option>
 			<option value="5">5</option>
 			<option value="7">7</option>
 		</select>
 		<c:set var ="itemsPerPage" value="${sessionScope.clientFilter.itemsPerPage}" scope="page"/>
-		<button type="submit" class="btn btn-info">Accept</button>
+		<button type="submit" class="btn btn-info"><s:message code="message.sort.filter"/></button>
 	</form>
 </div>
-
-

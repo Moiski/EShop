@@ -8,9 +8,9 @@
 <div id="addProductForm">
 
 	<sf:form class="form-horizontal" action="${pageContext.request.contextPath}/products/add/new/product" method="POST" modelAttribute="product">
-		<h3><i>Add product</i></h3>
+		<h3><i><s:message code="message.add.product"/></i></h3>
 		<div id="productName" class="form-group">
-			<label for="nameData" class="col-sm-2 control-label">Product Name:</label>
+			<label for="nameData" class="col-sm-2 control-label"><s:message code="message.add.product.name"/></label>
 			<div class="col-sm-6">
 				<sf:input path="name"
 					id="productNameData"
@@ -21,18 +21,18 @@
 			</div>
 		</div>	
 		<div class="form-group" id="categoryId">
-			<label for="categotyData" class="col-sm-2 control-label">Category ID:</label>
+			<label for="categotyData" class="col-sm-2 control-label"><s:message code="message.add.product.category"/></label>
 			<div class="col-sm-6">
 				<select class="form-control" id="productCategoryData" name="categoryId">
-					<option value="">Select a category</option>
-					<option value="1">E-readers</option>
-					<option value="2">Tablets</option>
-					<option value="3">Accessories</option>
+					<option value=""><s:message code="message.add.product.category.select"/></option>
+					<option value="1"><s:message code="message.category.id.1"/></option>
+					<option value="2"><s:message code="message.category.id.2"/></option>
+					<option value="3"><s:message code="message.category.id.3"/></option>
 				</select>
 			</div>
 		</div>
 		<div class="form-group" id="idPrice">
-			<label for="productPrice" class="col-sm-2 control-label">Product price:</label>
+			<label for="productPrice" class="col-sm-2 control-label"><s:message code="message.add.product.cost"/></label>
 			<div class="col-sm-6">
 				<sf:input path="price"
 					class="form-control"
@@ -44,7 +44,7 @@
 			</div>
 		</div>
 		<div class="form-group" id="idImage">
-			<label for="productImage" class="col-sm-2 control-label">Image:</label>
+			<label for="productImage" class="col-sm-2 control-label"><s:message code="message.add.product.image"/></label>
 			<div class="col-sm-6">
 				<sf:input path="image"
 					id="productImage"
@@ -55,7 +55,7 @@
 			</div>
 		</div>
 		<div class="form-group" id="idDescription">
-			<label for="productDicription" class="col-sm-2 control-label">Product description:</label>
+			<label for="productDicription" class="col-sm-2 control-label"><s:message code="message.add.product.description"/></label>
 			<div class="col-sm-6">
 				<sf:textarea path="description"
 					 id="productDicription"
@@ -66,7 +66,7 @@
 		</div>
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-6">
-				<button type="submit" class="btn btn-success">Save</button>
+				<button type="submit" class="btn btn-success"><s:message code="message.add.product.save"/></button>
 			</div>
 		</div>	
 	</sf:form>	

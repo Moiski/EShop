@@ -1,6 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 
@@ -19,7 +18,7 @@
 		<div class="header">
 			<c:import url="/WEB-INF/jsp/fragment/header.jsp" />
 		</div>
-		<hr />
+		<hr/>
 		<div class="body">
 			<div class="leftPart">
 				<c:import url="/WEB-INF/jsp/fragment/navbar.jsp" />
@@ -39,10 +38,9 @@
 						${regInfoMessage}</div>
 				</c:if>
 				<c:if test="${sessionScope.userType eq 'GUEST'}">
-					<h1 class="alert alert-info">
-						<i>Hello! Welcome in our store! To make purchases from our
-							store, sign in with your login or register!</i>
-					</h1>
+					<h3 class="alert alert-info">
+						<i><s:message code="message.registerplease"/></i>
+					</h3>
 					<br />
 				</c:if>
 				<c:import url="/WEB-INF/jsp/fragment/productslist.jsp" />
