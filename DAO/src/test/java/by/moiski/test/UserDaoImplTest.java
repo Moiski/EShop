@@ -8,6 +8,8 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,37 +34,49 @@ public class UserDaoImplTest {
 	private IUserDao userDao;
 	
 	private Session session;
+	private User userA;
+	private User userB;
+	private User userC;
+	
+	@Before
+	public void setUp() {
+		userA = createUser("lkpo", "123");
+		saveUser(userA);
+		userB = createUser("wert", "123");
+		saveUser(userB);
+	}
+	
+	@After
+	public void tearDown() {
+		session = sessionFactory.getCurrentSession();
+		userA = (User) session.get(User.class, userA.getUserId());
+		userB = (User) session.get(User.class, userB.getUserId());
+		session.delete(userA);
+		session.delete(userB);
+		session.flush();
+		session.clear();
+	}
 	
 	@Test
 	public void testGetUserByLoginAndPassword(){
-		User userA = createUser("lkpo", "123");
-		saveUser(userA);
-		User userB = userDao.getUserByLoginAndPassword("lkpo", "123");
-		assertEquals(userA, userB);
-		User userC = userDao.getUserByLoginAndPassword("wert", "123");
+		userC = userDao.getUserByLoginAndPassword("lkpo", "123");
+		assertEquals(userA, userC);
+		userC = userDao.getUserByLoginAndPassword("kostya", "123");
 		assertNull(userC);
 	}
 	
 	@Test
 	public void testGetAllUsers(){
-		User userA1 = createUser("lkpo1", "123");
-		saveUser(userA1);
-		User userA2 = createUser("lkpo2", "123");
-		saveUser(userA2);
-		User userA3 = createUser("lkpo3", "123");
-		saveUser(userA3);
 		List <User> testUsers = userDao.getAllUsers();
-		assertTrue(testUsers.size()>=3);
+		assertTrue(testUsers.size()>=2);
 	}
 	
 	@Test
 	public void testGetUserIdByLogin(){
-		User userC = createUser("lkpo4", "123");
-		saveUser(userC);
-		User userD = userDao.getUserIdByLogin(userC.getLogin());
-		assertEquals(userC,userD);
-		User userF = userDao.getUserIdByLogin("lkpo5");
-		assertNull(userF);
+		userC = userDao.getUserIdByLogin(userA.getLogin());
+		assertEquals(userA,userC);
+		userC = userDao.getUserIdByLogin("lkpo5");
+		assertNull(userC);
 	}
 	
 	private void saveUser(User user){

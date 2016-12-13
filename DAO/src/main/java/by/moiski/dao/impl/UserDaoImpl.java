@@ -35,6 +35,17 @@ public class UserDaoImpl extends DaoImpl<User> implements IUserDao {
 		return results;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<User> getUserByLogin(String login) {
+		logger.info("Get user bu login  " + getClass().getName());
+		String hql = "FROM User u WHERE u.login=:loginUser";
+		Query query = getSession().createQuery(hql);
+		query.setParameter("loginUser", login);
+		query.setCacheable(true);
+		List <User> results = query.list();
+		return results;
+	}
+	
 	public User getUserIdByLogin(String login){
 		logger.info("Get user by login" + getClass().getName());
 		String hql = "SELECT u FROM User u WHERE u.login=:userLogin";

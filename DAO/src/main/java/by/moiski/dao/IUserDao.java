@@ -12,4 +12,6 @@ public interface IUserDao extends IDao<User> {
 	
 	User getUserIdByLogin(String login);
 	
+	List<User> getUserByLogin(String login);
+	
 }
