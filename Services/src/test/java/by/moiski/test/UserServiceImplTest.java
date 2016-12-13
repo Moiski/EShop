@@ -18,20 +18,23 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import by.moiski.dao.IUserDao;
 import by.moiski.dao.entities.User;
 import by.moiski.dao.enums.BlackList;
 import by.moiski.dao.enums.UserT;
+import by.moiski.services.IUserService;
+import by.moiski.services.exceptions.ErrorDataAccessServiceExeption;
+import by.moiski.services.exceptions.ErrorSavingUserServiceExeption;
+import by.moiski.services.exceptions.LoginAlreadyBusyServiceExeption;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "/spring-dao-test-config.xml")
+@ContextConfiguration(locations = "/spring-services-test-config.xml")
 @Transactional(propagation = Propagation.SUPPORTS)
-public class UserDaoImplTest {
+public class UserServiceImplTest {
 	
 	@Autowired
 	private SessionFactory sessionFactory;
 	@Autowired
-	private IUserDao userDao;
+	private IUserService userService;
 	
 	private Session session;
 	private User userA;
@@ -39,12 +42,13 @@ public class UserDaoImplTest {
 	private User userC;
 	private User expectedUserA;
 	private User expectedUserB;
+	private User expectedUserC;
 	
 	@Before
 	public void setUp() {
-		userA = createUser("lkpo", "123");
+		userA = createUser("userA", "123");
 		saveUser(userA);
-		userB = createUser("wert", "123");
+		userB = createUser("userB", "123");
 		saveUser(userB);
 	}
 	
@@ -60,17 +64,32 @@ public class UserDaoImplTest {
 	}
 	
 	@Test
-	public void testGetUserByLoginAndPassword(){
-		userC = userDao.getUserByLoginAndPassword("lkpo", "123");
+	public void testGetUserByLoginPassword() throws ErrorDataAccessServiceExeption{
+		session = sessionFactory.getCurrentSession();
+		userC = userService.getUserByLoginPassword("userA", "123");
 		assertEquals(userA, userC);
-		userC = userDao.getUserByLoginAndPassword("kostya", "123");
+		userC = userService.getUserByLoginPassword("userC", "123");
 		assertNull(userC);
+		session.flush();
+		session.clear();
 	}
 	
 	@Test
-	public void testGetAllUsers(){
+	public void testSaveUserToDataBase() throws LoginAlreadyBusyServiceExeption, ErrorSavingUserServiceExeption{
 		session = sessionFactory.getCurrentSession();
-		List <User> testUsers = userDao.getAllUsers();
+		userC = createUser("userC", "123");
+		userService.saveUserToDataBase(userC);
+		expectedUserC = (User) session.get(User.class, userC.getUserId());
+		assertEquals(expectedUserC, userC);
+		session.delete(expectedUserC);
+		session.flush();
+		session.clear();
+	}
+	
+	@Test
+	public void testGetALLUsers(){
+		session = sessionFactory.getCurrentSession();
+		List <User> testUsers = userService.getALLUsers();
 		expectedUserA = testUsers.get(0);
 		expectedUserB = testUsers.get(1);
 		assertTrue(testUsers.size()>=2);
@@ -83,16 +102,45 @@ public class UserDaoImplTest {
 	@Test
 	public void testGetUserIdByLogin(){
 		session = sessionFactory.getCurrentSession();
-		userC = userDao.getUserIdByLogin(userA.getLogin());
+		userC = userService.getUserIdByLogin(userA.getLogin());
 		assertEquals(userA,userC);
-		userC = userDao.getUserIdByLogin("lkpo5");
+		userC = userService.getUserIdByLogin("lkpo5");
 		assertNull(userC);
 		session.flush();
 		session.clear();
 	}
 	
-	private void saveUser(User user){
+	@Test
+	public void testGetUserById(){
 		session = sessionFactory.getCurrentSession();
+		expectedUserA = userService.getUserById(userA.getUserId());
+		assertEquals(expectedUserA,userA);
+		session.flush();
+		session.clear();
+	}
+	
+	@Test
+	public void testUpdateUserBlackListStatus(){
+		session = sessionFactory.getCurrentSession();
+		userC = (User) session.get(User.class, userA.getUserId());
+		userC.setBlackList(BlackList.Y);
+		session.saveOrUpdate(userC);
+		expectedUserC = (User) session.get(User.class, userC.getUserId());
+		assertEquals(expectedUserC, userC);
+		session.flush();
+		session.clear();
+	}
+	
+	@Test(expected = LoginAlreadyBusyServiceExeption.class)
+	public void testSaveUserToDataBaseWrongLogin() throws LoginAlreadyBusyServiceExeption, ErrorSavingUserServiceExeption{
+		session = sessionFactory.getCurrentSession();
+		User expectedUser = createUser("userA", "123");
+		userService.saveUserToDataBase(expectedUser);
+		session.flush();
+		session.clear();
+	}
+	
+	private void saveUser(User user){
 		session = sessionFactory.getCurrentSession();
 		session.saveOrUpdate(user);
 		session.flush();

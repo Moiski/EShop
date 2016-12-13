@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import by.moiski.dao.IProductCategoryDao;
 import by.moiski.dao.entities.ProductCategory;
 import by.moiski.services.IProductCategoryService;
 
@@ -17,7 +18,7 @@ public class ProductCategoryServiceImpl implements IProductCategoryService {
 	
 	private static Logger logger = Logger.getLogger(ProductCategoryServiceImpl.class);
 	@Autowired
-	private IProductCategoryService categoryDaoImpl;
+	private IProductCategoryDao categoryDaoImpl;
 
 	public List<ProductCategory> getAllProductCategories() {
 		logger.info("Starting method getAllProductCategories()  " + getClass().getName());
