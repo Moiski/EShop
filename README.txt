@@ -23,7 +23,7 @@
  ************************************************************************************************** 
     <property name="url" value="jdbc:mysql://localhost:3306/eshop" />
     <property name="username" value="root" />
-		<property name="password" value="root" />
+    <property name="password" value="root" />
  ************************************************************************************************** 
  
   Now you need to register a user in the tomcat-users.xml file (you can find this file in a folder conf of Tomcat server):
